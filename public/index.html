@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head/>
+<body>
+<p>Orders</p>
+<button id="bo1">get all</button>
+<button id="bo2">create</button>
+<button id="bo3">get</button>
+<button id="bo4">update</button>
+<button id="bo5">delete</button>
+<p>Order regels</p>
+<button id="br1">get all</button>
+<button id="br2">create</button>
+<button id="br3">get</button>
+<button id="br4">update</button>
+<button id="br5">delete</button>
+<script>
+
+let crData = {name:'order1', creationDate: new Date(), location:'Pijnacker', status:'NEW'};
+const grData = null;
+let upData = {name:'order1up', creationDate: new Date(), location:'Utrecht', status:'UPDATE'};
+const delData = null;
+
+const send = function(data, target, method) {
+var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	   if (this.readyState == 4 ) {
+			var response = this.responseText;
+			if (this.status == 200 || this.status == 204) {
+                      console.log('ok')
+		  }
+	  }
+				
+    };
+	xhttp.open(method, target, true);
+	xhttp.setRequestHeader('Content-type', 'application/json');
+		if ( data!=null && data instanceof Object ) {
+			data = JSON.stringify(data);
+		}
+	
+	xhttp.send(data);
+};
+
+// Orders
+
+const bo1 = document.getElementById("bo1");
+bo1.onclick = function(e) {
+    e.preventDefault();
+	send(crData, '/api/orders', 'GET');
+	};
+
+const bo2 = document.getElementById("bo2");
+bo2.onclick = function(e) {
+    e.preventDefault();
+	send(crData, '/api/order', 'POST');
+	};
+
+const bo3 = document.getElementById("bo3");
+bo3.onclick = function(e) {
+    e.preventDefault();
+	send(grData, '/api/order/1', 'GET');
+	};
+	
+const bo4 = document.getElementById("bo4");
+bo4.onclick = function(e) {
+    e.preventDefault();
+	send(upData, '/api/order/1', 'PUT');
+	};
+
+const bo5 = document.getElementById("bo5");
+bo5.onclick = function(e) {
+    e.preventDefault();
+	send(delData, '/api/order/3', 'DELETE');
+	};
+
+// Order regels
+
+const br1 = document.getElementById("br1");
+br1.onclick = function(e) {
+    e.preventDefault();
+	send(crData, '/api/order-regels', 'GET');
+	};
+
+let crrData = {name:'sub order1', amount:3, price:12.5};
+const br2 = document.getElementById("br2");
+br2.onclick = function(e) {
+    e.preventDefault();
+	send(crrData, '/api/order-regel/1', 'POST');
+	};
+
+const br3 = document.getElementById("br3");
+br3.onclick = function(e) {
+    e.preventDefault();
+	send(grData, '/api/order-regel/1', 'GET');
+	};
+
+let cruData = {name:'sub order1up', amount:2, price:6.25};
+const br4 = document.getElementById("br4");
+br4.onclick = function(e) {
+    e.preventDefault();
+	send(crrData, '/api/order-regel/1', 'PUT');
+	};
+	
+const br5 = document.getElementById("br5");
+br5.onclick = function(e) {
+    e.preventDefault();
+	send(delData, '/api/order-regel/3', 'DELETE');
+	};
+
+</script>
+</body>
+</html>
